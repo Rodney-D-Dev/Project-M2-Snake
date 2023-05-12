@@ -1,6 +1,7 @@
 body {
     background: #E0D9F6;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -8,12 +9,15 @@ body {
 /* Game Stats Area */
 .gameStartArea {
     display: flex;
-    margin: auto;
+    
 }
-
+.gameStartArea div  {
+    
+    margin: auto;
+    padding: auto;
+}
 #score {
     background-color:#2A2356 ;
-
 }
 
 #level {
