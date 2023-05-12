@@ -1,0 +1,31 @@
+body {
+    background: #E0D9F6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Game Stats Area */
+.gameStartArea {
+    display: flex;
+    margin: auto;
+}
+
+#score {
+    background-color:#2A2356 ;
+
+}
+
+#level {
+    background-color: #2A2356;
+}
+
+#lives {
+    background-color: #2A2356;
+}
+
+/* Game Board Area */
+
+#gameBoard {
+    background-color: black;
+}
