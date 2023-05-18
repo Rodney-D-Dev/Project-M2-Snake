@@ -22,18 +22,23 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     let door = {
         x: tileSize,
-        y:tileSize
+        y: tileSize
     };
 
     //directinal control
     let inputDr = { x: 0, y: 0 };
 
-    let gameLoop;
+    
     let fPS = 1000 / snakeSpeed;
+    let gameLoop = 0;
+
+    let isPaused = false;
+    let isGameOver = false;
+
 
     window.onload = function () {
         genFood();
-        gameLoop = setInterval(update, fPS)
+        gameLoop = setInterval(update, fPS);
     }
 
     function drawGame() {
@@ -63,13 +68,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     }
-
+    /**
+     * 
+     * 
+     * @param{Array<string>}
+     */
     function createMap(map) {
-        for (let y =0; y < map.length; y++){
+        for (let y = 0; y < map.length; y++) {
             const row = map[y];
-            for(let x = 0; x < row.length; x++){
+            for (let x = 0; x < row.length; x++) {
                 const char = row[x];
-                if(char === '#') walls.push({x: x * wall.x, y: y * wall.y});
+                if (char === '#') walls.push({ x: x * wall.x, y: y * wall.y });
             }
         }
     }
@@ -91,8 +100,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     // helper fuction for generating food at random location on grid/map 
     function genFood() {
         food = {
-            x: Math.floor(Math.random() * height)  * tileSize,
-            y: Math.floor(Math.random()  * width) * tileSize
+            x: Math.floor(Math.random() * height) * tileSize,
+            y: Math.floor(Math.random() * width) * tileSize
         }
     }
     // user input for game controll
@@ -111,6 +120,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 case "ArrowRight":
                     inputDr = { x: 1, y: 0 };
                     break;
+                case " ":
+                    if(!isPaused){  
+                       pauseGame(); 
+                    }else{
+                        resumeGame();
+                    }
+                    break;
+                    
             }
         })
     }
@@ -119,18 +136,34 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         //if snake colides with food
         if (snake.x === food.x && snake.y === food.y) {
-            snakeBody.push({...snakeBody});
+            snakeBody.push({ ...snakeBody });
             genFood();
         }
-        // if snake hits wall
-        if(snake.x === wall.x && snake.y === wall.y) {
-            // loose live and restart level.
-            console.log("snake hit wall");
+
+        for (let i = 0; i < walls.length; i++) {
+            const wall = walls[i];
+            // if snake hits wall
+            if (snake.x === wall.x && snake.y === wall.y) {
+                // loose live and restart level.
+                console.log("snake hit wall");
+            }
+            //detect if food is generated on snake or wall
+            if (food.x === snake.x && food.y === snake.y || food.x === wall.x && food.y === wall.y) {
+                genFood();
+            }
         }
-        //detect if food is generated on snake or wall
-        if(food.x === snake.x && food.y === snake.y || food.x === wall.x && food.y === wall.y){
-            genFood();
-        }    
+    }
+
+    function pauseGame(){
+        isPaused = true;
+        clearInterval(gameLoop);
+        console.log("game paused!!");
+    }
+
+    function resumeGame(){
+        isPaused = false;
+        gameLoop = setInterval(update, fPS);
+        console.log("game Resummed");
     }
 
 });
