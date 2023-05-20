@@ -22,13 +22,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     let currentlives;
 
     //Snake varibles 
-    let snake = {
-        x: tileSize * 11, y: tileSize * 11
-    }; // snake start point
+    let snake = randomPos(); // snake start point
     let snakeBody = [];
     let snakeSpeed = 5;
     //Food Varibles
-    let food = { x: tileSize * 16, y: tileSize * 14 };
+    let food = randomPos();;
 
     //walls 
     let walls = [];
@@ -60,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function gameStart(){
         currentlives = lives;
         snakeBody.length = 1;
-        
+        //genFood();
         gameLoop = setInterval(update, fPS);
 
     }
@@ -135,10 +133,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         snake.y += inputDr.y * tileSize;
         //console.log(inputDr.x);
     }
-
-    // helper fuction for generating food at random location on grid/map 
-    function genFood() {
-        food = {
+    /**hellper function to generate random position on map
+     * used for snake and food pos
+     */
+    function randomPos(){
+        return {
             x: Math.floor(Math.random() * height) * tileSize,
             y: Math.floor(Math.random() * width) * tileSize
         }
@@ -175,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         //if snake colides with food grow
         if (snake.x === food.x && snake.y === food.y) {
             snakeBody.unshift({ ...snakeBody });
-            genFood();
+            food = randomPos();
             score++
         }
         //grab all the walls for wall collisions
@@ -190,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
             //detect if food is generated on snake or wall
             if (food.x === snake.x && food.y === snake.y || food.x === wall.x && food.y === wall.y) {
-                genFood();
+                food = randomPos();
             }
         }
     }
@@ -215,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             score = 0;
             //reset snake 
             snakeBody.length = 1;
-            snake = { x: tileSize * 12, y: tileSize * 1 };
+            snake = { x: tileSize * 12, y: tileSize * 11 };
             resumeGame();
         }
 
