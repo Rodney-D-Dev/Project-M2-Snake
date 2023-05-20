@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     //directinal control
     let inputDr = { x: 0, y: 0 };
+    let lastInputDr = { x: 0, y: 0 };
 
 
     let fPS = 1000 / snakeSpeed;
@@ -131,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         snake.x += inputDr.x * tileSize;
         snake.y += inputDr.y * tileSize;
-        //console.log(inputDr.x);
+        
     }
     /**hellper function to generate random position on map
      * used for snake and food pos
@@ -144,18 +145,23 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
     // user input for game controll
     function input() {
+        lastInputDr = inputDr;
         window.addEventListener("keydown", event => {
             switch (event.key) {
                 case "ArrowUp":
+                    if(lastInputDr.y !== 0) break;
                     inputDr = { x: 0, y: -1 };
                     break;
                 case "ArrowDown":
+                    if(lastInputDr.y !== 0) break;
                     inputDr = { x: 0, y: 1 };
                     break;
                 case "ArrowLeft":
+                    if(lastInputDr.x !== 0) break;
                     inputDr = { x: -1, y: 0 };
                     break;
                 case "ArrowRight":
+                    if(lastInputDr.x !== 0) break;
                     inputDr = { x: 1, y: 0 };
                     break;
                 case " ":
@@ -171,6 +177,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     function collision() {
+        //colision if snake hits its self
+        for(let i = 0; i < snakeBody.length - 1; i++){
+            if(snake.x === snakeBody[i][0] && snake.y === snakeBody[i][1]){
+                lives--;
+                currentlives = lives;
+                resetGame();
+            }
+        }
+
         //if snake colides with food grow
         if (snake.x === food.x && snake.y === food.y) {
             snakeBody.unshift({ ...snakeBody });
@@ -206,6 +221,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         console.log("game Resummed");
     }
     function resetGame() {
+        //pause game to show what happened
         pauseGame();
         if (currentlives <= 0) {
             isGameOver = true;
@@ -214,7 +230,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
             score = 0;
             //reset snake 
             snakeBody.length = 1;
-            snake = { x: tileSize * 12, y: tileSize * 11 };
+            snake = randomPos();
+            inputDr.x = 0;
+            inputDr.y = 0;
             resumeGame();
         }
 
