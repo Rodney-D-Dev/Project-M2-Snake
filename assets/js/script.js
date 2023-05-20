@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
     gameBoard.width = width * tileSize;
     gameBoard.style.border = "1px solid #000";
 
+    let scoreDis = document.getElementById("score");
+    let levelDis = document.getElementById("level");
+    let livesDis = document.getElementById("lives");
+
     // Stats
     let score = 0;
     let level = 1;
@@ -50,10 +54,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     window.onload = function () {
-        genFood();
-        gameLoop = setInterval(update, fPS);
+        
+        gameStart();
     }
+    function gameStart(){
+        currentlives = lives;
+        snakeBody.length = 1;
+        
+        gameLoop = setInterval(update, fPS);
 
+    }
     function update() {
         drawGame();
         input();
@@ -66,9 +76,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
         contx.fillRect(0, 0, gameBoard.width, gameBoard.height);
         //Drawing Walls on canvas 
         createMap(levelOne);
+        drawStats();
         drawMap();
         drawFood();
         drawSnake();
+    }
+    function drawStats(){
+        scoreDis.innerHTML = `score:${score}`;
+
+        livesDis.innerHTML = `${lives}`
     }
     /**
      * 
@@ -160,6 +176,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         if (snake.x === food.x && snake.y === food.y) {
             snakeBody.unshift({ ...snakeBody });
             genFood();
+            score++
         }
         //grab all the walls for wall collisions
         for (let i = 0; i < walls.length; i++) {
@@ -198,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             score = 0;
             //reset snake 
             snakeBody.length = 1;
-            snake = { x: tileSize * 11, y: tileSize * 11 };
+            snake = { x: tileSize * 12, y: tileSize * 1 };
             resumeGame();
         }
 
