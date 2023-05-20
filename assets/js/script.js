@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     //directinal control
     let inputDr = { x: 0, y: 0 };
 
-    
+
     let fPS = 1000 / snakeSpeed;
     let gameLoop = 0;
 
@@ -56,17 +56,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
             contx.fillStyle = "#ffc0cb"
             contx.fillRect(wall.x, wall.y, tileSize, tileSize)
         }
-
-
         //Drawing Food on Canvas before snake for collision detection
         contx.fillStyle = "brown";
         contx.fillRect(food.x, food.y, tileSize, tileSize);
-
-        //Drawing Snake on Canvas
-        contx.fillStyle = "red"
-        contx.fillRect(snake.x, snake.y, tileSize, tileSize);
-
-
+        
+        drawSnake();
     }
     /**
      * 
@@ -90,6 +84,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
         collision();
     }
 
+    function drawSnake() {
+        //Drawing Snake on Canvas
+        for (let i = snakeBody.length - 1; i > 0; i--) {
+            contx.fillStyle = "blue";
+            snakeBody[i] = snake;
+            contx.fillRect(snake.x, snake.y, tileSize, tileSize);
+        }
+        
+    }
+    // snake movement
     function moveSnake() {
 
         snake.x += inputDr.x * tileSize;
@@ -121,13 +125,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
                     inputDr = { x: 1, y: 0 };
                     break;
                 case " ":
-                    if(!isPaused){  
-                       pauseGame(); 
-                    }else{
+                    if (!isPaused) {
+                        pauseGame();
+                    } else {
                         resumeGame();
                     }
                     break;
-                    
+
             }
         })
     }
@@ -154,13 +158,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     }
 
-    function pauseGame(){
+    function pauseGame() {
         isPaused = true;
         clearInterval(gameLoop);
         console.log("game paused!!");
     }
 
-    function resumeGame(){
+    function resumeGame() {
         isPaused = false;
         gameLoop = setInterval(update, fPS);
         console.log("game Resummed");
