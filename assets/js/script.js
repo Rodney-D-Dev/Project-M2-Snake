@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     const gameBoard = document.getElementById("gameBoard");
     const contx = gameBoard.getContext("2d");
     //Snake varibles 
-    let snake = { x: tileSize * 11, y: tileSize * 11 }; // snake start point
+    let snake = {
+        x: tileSize * 11, y: tileSize * 11
+    }; // snake start point
     let snakeBody = [];
     let snakeSpeed = 5;
     //Food Varibles
@@ -41,6 +43,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
         gameLoop = setInterval(update, fPS);
     }
 
+    function update() {
+        drawGame();
+        input();
+        moveSnake();
+        collision();
+    }
+
     function drawGame() {
         // Drawing canvas on screen and adjusting size by width * height
         gameBoard.height = height * tileSize;
@@ -51,15 +60,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         //Drawing Walls on canvas 
         createMap(levelOne);
-        for (let i = 0; i < walls.length; i++) {
-            const wall = walls[i];
-            contx.fillStyle = "#ffc0cb"
-            contx.fillRect(wall.x, wall.y, tileSize, tileSize)
-        }
-        //Drawing Food on Canvas before snake for collision detection
-        contx.fillStyle = "brown";
-        contx.fillRect(food.x, food.y, tileSize, tileSize);
-        
+        drawMap();
+        drawFood();
         drawSnake();
     }
     /**
@@ -76,22 +78,33 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         }
     }
-
-    function update() {
-        drawGame();
-        input();
-        moveSnake();
-        collision();
+    function drawMap() {
+        for (let i = 0; i < walls.length; i++) {
+            const wall = walls[i];
+            contx.fillStyle = "#ffc0cb"
+            contx.fillRect(wall.x, wall.y, tileSize, tileSize)
+        }
     }
-
+    function drawFood() {
+        //Drawing Food on Canvas before snake for collision detection
+        contx.fillStyle = "brown";
+        contx.fillRect(food.x, food.y, tileSize, tileSize);
+    }
     function drawSnake() {
         //Drawing Snake on Canvas
+        contx.fillStyle = "red";
+        contx.fillRect(snake.x, snake.y, tileSize, tileSize);
         for (let i = snakeBody.length - 1; i > 0; i--) {
-            contx.fillStyle = "blue";
-            snakeBody[i] = snake;
-            contx.fillRect(snake.x, snake.y, tileSize, tileSize);
+            snakeBody[i] = snakeBody[i - 1];
         }
-        
+        if (snakeBody.length) {
+            snakeBody[0] = [snake.x, snake.y];
+        }
+        for (let i = 0; i < snakeBody.length; i++) {
+            contx.fillStyle = (i <= 0) ? "yellow" : "red";
+            contx.fillRect(snakeBody[i][0], snakeBody[i][1], tileSize, tileSize);
+        }
+
     }
     // snake movement
     function moveSnake() {
@@ -137,13 +150,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     function collision() {
-
-        //if snake colides with food
+        //if snake colides with food grow
         if (snake.x === food.x && snake.y === food.y) {
-            snakeBody.push({ ...snakeBody });
+            snakeBody.unshift({ ...snakeBody });
             genFood();
         }
-
+        //grab all the walls for wall collisions
         for (let i = 0; i < walls.length; i++) {
             const wall = walls[i];
             // if snake hits wall
@@ -168,6 +180,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
         isPaused = false;
         gameLoop = setInterval(update, fPS);
         console.log("game Resummed");
+    }
+    function restartGame(){
+        //set score back to 0
+        score = 0;
+        //reset snake position
+        snake = {x: tileSize * 11, y: tileSize * 11};
+
     }
 
 });
