@@ -3,9 +3,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
     let width = 20;
     let height = 20;
     let tileSize = 20;
-
+    // Drawing canvas on screen and adjusting size by width * height
     const gameBoard = document.getElementById("gameBoard");
     const contx = gameBoard.getContext("2d");
+    gameBoard.height = height * tileSize;
+    gameBoard.width = width * tileSize;
+    gameBoard.style.border = "1px solid #000";
+
+    // Stats
+    let score = 0;
+    let level = 1;
+    let lives = 3;
+
+    let currentlives;
+
     //Snake varibles 
     let snake = {
         x: tileSize * 11, y: tileSize * 11
@@ -51,13 +62,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     function drawGame() {
-        // Drawing canvas on screen and adjusting size by width * height
-        gameBoard.height = height * tileSize;
-        gameBoard.width = width * tileSize;
         contx.fillStyle = "white";
         contx.fillRect(0, 0, gameBoard.width, gameBoard.height);
-        gameBoard.style.border = "2px solid #000";
-
         //Drawing Walls on canvas 
         createMap(levelOne);
         drawMap();
@@ -101,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             snakeBody[0] = [snake.x, snake.y];
         }
         for (let i = 0; i < snakeBody.length; i++) {
-            contx.fillStyle = (i <= 0) ? "yellow" : "red";
+            contx.fillStyle = (i <= 0) ? "red" : "green";
             contx.fillRect(snakeBody[i][0], snakeBody[i][1], tileSize, tileSize);
         }
 
@@ -160,8 +166,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
             const wall = walls[i];
             // if snake hits wall
             if (snake.x === wall.x && snake.y === wall.y) {
-                // loose live and restart level.
-                console.log("snake hit wall");
+                // loose live and reset level.
+                lives--;
+                currentlives = lives;
+                resetGame();
             }
             //detect if food is generated on snake or wall
             if (food.x === snake.x && food.y === snake.y || food.x === wall.x && food.y === wall.y) {
@@ -181,11 +189,18 @@ document.addEventListener("DOMContentLoaded", function (event) {
         gameLoop = setInterval(update, fPS);
         console.log("game Resummed");
     }
-    function restartGame(){
-        //set score back to 0
-        score = 0;
-        //reset snake position
-        snake = {x: tileSize * 11, y: tileSize * 11};
+    function resetGame() {
+        pauseGame();
+        if (currentlives <= 0) {
+            isGameOver = true;
+        } else {
+            //set score back to 0
+            score = 0;
+            //reset snake 
+            snakeBody.length = 1;
+            snake = { x: tileSize * 11, y: tileSize * 11 };
+            resumeGame();
+        }
 
     }
 
