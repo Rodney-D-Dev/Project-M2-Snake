@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function (event) {
     // varibles to keep of grid/map size
     let width = 20;
-    let height = 20;
+    let height = 30;
     let tileSize = 20;
     // Drawing canvas on screen and adjusting size by width * height
     const gameBoard = document.getElementById("gameBoard");
@@ -82,8 +82,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
     function drawStats(){
         scoreDis.innerHTML = `score:${score}`;
-
-        livesDis.innerHTML = `${lives}`
+        levelDis.innerHTML = `Level:${level}`;
+        livesDis.innerHTML = `Lives:${lives}`;
     }
     /**
      * 
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         snake.x += inputDr.x * tileSize;
         snake.y += inputDr.y * tileSize;
-        
+
     }
     /**hellper function to generate random position on map
      * used for snake and food pos
@@ -175,7 +175,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         })
     }
-
     function collision() {
         //colision if snake hits its self
         for(let i = 0; i < snakeBody.length - 1; i++){
@@ -208,13 +207,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         }
     }
-
     function pauseGame() {
         isPaused = true;
         clearInterval(gameLoop);
         console.log("game paused!!");
     }
-
     function resumeGame() {
         isPaused = false;
         gameLoop = setInterval(update, fPS);
@@ -225,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         pauseGame();
         if (currentlives <= 0) {
             isGameOver = true;
+            gameOver();
         } else {
             //set score back to 0
             score = 0;
@@ -237,13 +235,30 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
     }
-
+    function gameOver(){
+        contx.font = "50px MV Boli"
+        contx.fillStyle = "black";
+        contx.textAlign = "center";
+        contx.fillText(" GAME OVER! ",width * tileSize / 2,height * tileSize /2);
+    }
 });
 
 //levels for generating map walls 
 
 let levelOne = [
     '####################',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
     '#                  #',
     '#                  #',
     '#                  #',

@@ -3,12 +3,19 @@ snake Roam is take on an old game  called Snake, where you control a snake head 
 
 ## Features
 
--__The Logo and Heading
+- The Logo and Heading
  -Fetured at the top of the page 
 
--___Stats Area
+- Stats Area
  -To show game stats like score and lives
 
--___Game Area 
+- Game Area 
  -Area to display game enviroment
 
+## Testing
+
+# Deployment
+
+# Credits
+
+# Media
