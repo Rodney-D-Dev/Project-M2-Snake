@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function (event) {
     // varibles to keep of grid/map size
-    let width = 20;
+    let width = 30;
     let height = 30;
     let tileSize = 20;
     // Drawing canvas on screen and adjusting size by width * height
@@ -174,7 +174,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             }
         })
+
+
     }
+
     function collision() {
         //colision if snake hits its self
         for(let i = 0; i < snakeBody.length - 1; i++){
@@ -246,38 +249,36 @@ document.addEventListener("DOMContentLoaded", function (event) {
 //levels for generating map walls 
 
 let levelOne = [
-    '####################',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '####################',
+    '###############          #####',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '#                            #',
+    '###############          #####',
 ]
 
 let levelTwo = [
