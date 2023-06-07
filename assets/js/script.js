@@ -175,9 +175,35 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         })
 
-
+        window.addEventListener("click", event => {
+            switch (event.target.id) {
+                case "up":
+                    if(lastInputDr.y !== 0) break;
+                    inputDr = { x: 0, y: -1 };
+                    break;
+                case "down":
+                    if(lastInputDr.y !== 0) break;
+                    inputDr = { x: 0, y: 1 };
+                    break;
+                case "left":
+                    if(lastInputDr.x !== 0) break;
+                    inputDr = { x: -1, y: 0 };
+                    break;
+                case "right":
+                    if(lastInputDr.x !== 0) break;
+                    inputDr = { x: 1, y: 0 };
+                    break;
+                case " ":
+                    if (!isPaused) {
+                        pauseGame();
+                    } else {
+                        resumeGame();
+                    }
+                    break;
+            }
+        })
     }
-
+    
     function collision() {
         //colision if snake hits its self
         for(let i = 0; i < snakeBody.length - 1; i++){
