@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     gameBoard.width = width * tileSize;
     gameBoard.style.border = "1px solid #000";
 
-    let scoreDis = document.getElementById("score");
-    let levelDis = document.getElementById("level");
-    let livesDis = document.getElementById("lives");
+    const scoreDis = document.getElementById("score");
+    const levelDis = document.getElementById("level");
+    const livesDis = document.getElementById("lives");
 
     // Stats
     let score = 0;
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     //Snake varibles 
     let snake = randomPos(); // snake start point
     let snakeBody = [];
-    let snakeSpeed = 5;
+    let snakeSpeed = 10;
     //Food Varibles
     let food = randomPos();;
 
@@ -53,15 +53,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     window.onload = function () {
-        
+
         gameStart();
     }
-    function gameStart(){
+    function gameStart() {
         currentlives = lives;
         snakeBody.length = 1;
-        //genFood();
+        snake = randomPos();
+        food = randomPos();
         gameLoop = setInterval(update, fPS);
-
     }
     function update() {
         drawGame();
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         drawFood();
         drawSnake();
     }
-    function drawStats(){
+    function drawStats() {
         scoreDis.innerHTML = `score:${score}`;
         levelDis.innerHTML = `Level:${level}`;
         livesDis.innerHTML = `Lives:${lives}`;
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     /**hellper function to generate random position on map
      * used for snake and food pos
      */
-    function randomPos(){
+    function randomPos() {
         return {
             x: Math.floor(Math.random() * height) * tileSize,
             y: Math.floor(Math.random() * width) * tileSize
@@ -149,19 +149,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
         window.addEventListener("keydown", event => {
             switch (event.key) {
                 case "ArrowUp":
-                    if(lastInputDr.y !== 0) break;
+                    if (lastInputDr.y !== 0) break;
                     inputDr = { x: 0, y: -1 };
                     break;
                 case "ArrowDown":
-                    if(lastInputDr.y !== 0) break;
+                    if (lastInputDr.y !== 0) break;
                     inputDr = { x: 0, y: 1 };
                     break;
                 case "ArrowLeft":
-                    if(lastInputDr.x !== 0) break;
+                    if (lastInputDr.x !== 0) break;
                     inputDr = { x: -1, y: 0 };
                     break;
                 case "ArrowRight":
-                    if(lastInputDr.x !== 0) break;
+                    if (lastInputDr.x !== 0) break;
                     inputDr = { x: 1, y: 0 };
                     break;
                 case " ":
@@ -178,19 +178,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
         window.addEventListener("click", event => {
             switch (event.target.id) {
                 case "up":
-                    if(lastInputDr.y !== 0) break;
+                    if (lastInputDr.y !== 0) break;
                     inputDr = { x: 0, y: -1 };
                     break;
                 case "down":
-                    if(lastInputDr.y !== 0) break;
+                    if (lastInputDr.y !== 0) break;
                     inputDr = { x: 0, y: 1 };
                     break;
                 case "left":
-                    if(lastInputDr.x !== 0) break;
+                    if (lastInputDr.x !== 0) break;
                     inputDr = { x: -1, y: 0 };
                     break;
                 case "right":
-                    if(lastInputDr.x !== 0) break;
+                    if (lastInputDr.x !== 0) break;
                     inputDr = { x: 1, y: 0 };
                     break;
                 case " ":
@@ -203,11 +203,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         })
     }
-    
+
     function collision() {
         //colision if snake hits its self
-        for(let i = 0; i < snakeBody.length - 1; i++){
-            if(snake.x === snakeBody[i][0] && snake.y === snakeBody[i][1]){
+        for (let i = 0; i < snakeBody.length - 1; i++) {
+            if (snake.x === snakeBody[i][0] && snake.y === snakeBody[i][1]) {
                 lives--;
                 currentlives = lives;
                 resetGame();
@@ -237,13 +237,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     }
     function pauseGame() {
-        isPaused = true;
-        clearInterval(gameLoop);
-        console.log("game paused!!");
+        for (let i = 0; i < 5000; i++) {
+            isPaused = true;
+            clearInterval(gameLoop);
+        }
     }
     function resumeGame() {
         isPaused = false;
-        gameLoop = setInterval(update, fPS);
+        gameStart();
         console.log("game Resummed");
     }
     function resetGame() {
@@ -257,25 +258,35 @@ document.addEventListener("DOMContentLoaded", function (event) {
             score = 0;
             //reset snake 
             snakeBody.length = 1;
-            snake = randomPos();
             inputDr.x = 0;
             inputDr.y = 0;
             resumeGame();
         }
 
     }
-    function gameOver(){
+    /**game over fuction */
+    function gameOver() {
+        pauseGame();
+        //game over text
         contx.font = "50px MV Boli"
         contx.fillStyle = "black";
         contx.textAlign = "center";
-        contx.fillText(" GAME OVER! ",width * tileSize / 2,height * tileSize /2);
+        contx.fillText(" GAME OVER! ", width * tileSize / 2, height * tileSize / 2);
+
+        // Show score ended on 
+        console.log(score);
+        contx.fillStyle = "black"
+        contx.textAlign = "top";
+        contx.fillText(`${score}`,width * tileSize - 300 , height * tileSize / 3);
+
     }
 });
+
 
 //levels for generating map walls 
 
 let levelOne = [
-    '###############          #####',
+    '##############################',
     '#                            #',
     '#                            #',
     '#                            #',
@@ -304,7 +315,7 @@ let levelOne = [
     '#                            #',
     '#                            #',
     '#                            #',
-    '###############          #####',
+    '##############################',
 ]
 
 let levelTwo = [
