@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
     const levelDis = document.getElementById("level");
     const livesDis = document.getElementById("lives");
 
+    //Sound effects
+    let eatEffect = new Audio ("assets/sounds/carrotnom-92106.mp3");
+
     // Stats
     let score = 0;
     let level = 1;
@@ -54,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     window.onload = function () {
 
+        document.getElementById("bgAudio").play();
         gameStart();
     }
     function gameStart() {
@@ -219,6 +223,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         //if snake colides with food grow
         if (snake.x === food.x && snake.y === food.y) {
             snakeBody.unshift({ ...snakeBody });
+            eatEffect.volume = 0.5;
+            eatEffect.play();
             food = randomPos();
             score++
         }
@@ -284,6 +290,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 });
 
+/**
+ * Audio background music
+ */
+function muteAudio(){
+    let backgroundAudio = document.getElementById("bgAudio");
+    backgroundAudio.muteAudio = !backgroundAudio.muteAudio;
+}
 
 //levels for generating map walls 
 

@@ -23,13 +23,17 @@
     <!--game canvas -->
     <canvas id="gameBoard">
     </canvas>
-
+    <!--Background Music-->
+    <audio autoplay loop id="bgAudio" muted controls>
+        <source src="assets/sounds/ethereal-ambient-music-55115.mp3" type="audio/mp3">
+    </audio>
     <!--Buttons to contol snake without keyboard input -->
     <div class="btncontrols">
         <button id="up">Up</button>
         <button id="left">Left</button>
         <button id="down">Down</button>
         <button id="right">Right</button>
+        <button id="mute" onclick="muteAudio()">mute</button>
     </div>
     <!--java script -->
     <script src="assets/js/script.js"></script>
