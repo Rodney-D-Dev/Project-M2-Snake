@@ -95,7 +95,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
             const row = map[y];
             for (let x = 0; x < row.length; x++) {
                 const char = row[x];
-                if (char === '#') walls.push({ x: x * wall.x, y: y * wall.y });
+                if(char === '#'){
+                    walls.push({ x: x * wall.x, y: y * wall.y });
+                }
             }
         }
     }
