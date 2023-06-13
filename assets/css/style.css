@@ -1,5 +1,15 @@
+/*Helper Varibles to keep track of color parlet*/
+:root {
+    --primary-color:#0000;
+    --secondary-color:#051427;
+    --accent-color:#ced7e0;
+
+    --walls-color:#a44322;
+    --snakeHead-color:#f8bc04;
+}
+
 body {
-    background: #100e18e5;
+    background:var(--primary-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,30 +19,31 @@ body {
 /* Game Stats Area */
 .gameStatArea {
     display: flex;
-    
+    background-color:var(--accent-color);
 }
 .gameStatArea h2  {
     margin: auto;
     width: 125px;
-    border-radius: 5px;
+    border-radius: 2px;
     padding: 3px;
+    
 }
-#score {
-    background-color:#15ade9 ;
+/*#score {
+    
 }
 
 #level {
-    background-color: #15ade9;
+    
 }
 
 #lives {
-    background-color: #15ade9;
-}
+    
+}*/
 
 /* Game Board Area */
 
 #gameBoard {
-    background-color: black;
+    background-color: var(--primary-color);
 }
 
 /*Displaying Buttons controls and style */

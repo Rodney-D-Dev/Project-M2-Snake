@@ -4,11 +4,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
     let height = 30;
     let tileSize = 20;
     // Drawing canvas on screen and adjusting size by width * height
+    const rootstyle = getComputedStyle(document.body);
     const gameBoard = document.getElementById("gameBoard");
     const contx = gameBoard.getContext("2d");
     gameBoard.height = height * tileSize;
     gameBoard.width = width * tileSize;
-    gameBoard.style.border = "1px solid #000";
+    gameBoard.style.border = `1px solid ${rootstyle.getPropertyValue('--primary-color')}`;
 
     const scoreDis = document.getElementById("score");
     const levelDis = document.getElementById("level");
@@ -58,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     window.onload = function () {
 
-        document.getElementById("bgAudio").play();
+        //document.getElementById("bgAudio").play();
         gameStart();
     }
     function gameStart() {
@@ -88,7 +89,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function drawStats() {
         scoreDis.innerHTML = `score:${score}`;
         levelDis.innerHTML = `Level:${level}`;
-        livesDis.innerHTML = `Lives:${lives}`;
+        for(i = 0; i <= lives;i++){
+            let heart = "&#128150";
+             livesDis.innerHTML = `${heart.repeat(i)}`;
+        }
+       
     }
     /**
      * 
