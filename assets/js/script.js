@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     //Sound effects
     let eatEffect = new Audio ("assets/sounds/carrotnom-92106.mp3");
+    let hitEffect = new Audio ("assets/sounds/punch-2-37333.mp3");
 
     // Stats
     let score = 0;
@@ -216,6 +217,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
             if (snake.x === snakeBody[i][0] && snake.y === snakeBody[i][1]) {
                 lives--;
                 currentlives = lives;
+                eatEffect.volume = 0.5;
+                hitEffect.play();
                 resetGame();
             }
         }
@@ -236,11 +239,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 // loose live and reset level.
                 lives--;
                 currentlives = lives;
+                eatEffect.volume = 0.5;
+                hitEffect.play();
                 resetGame();
             }
             //detect if food is generated on snake or wall
             if (food.x === snake.x && food.y === snake.y || food.x === wall.x && food.y === wall.y) {
                 food = randomPos();
+                eatEffect.volume = 0.5;
+                hitEffect.play();
             }
         }
     }
