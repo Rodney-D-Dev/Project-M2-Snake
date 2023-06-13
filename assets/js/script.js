@@ -100,11 +100,20 @@ function gameStart() {
     snake = randomPos();
     food = randomPos();
     gameLoop = setInterval(update, fPS);
+    if (lives <= 0 ) {
+        lives = 3;
+        drawGame();
+    }
+
 }
 function update() {
+    if (!isPaused) {
+        moveSnake();
+        collision();
+        currentlives = lives;
+    }
     drawGame();
-    moveSnake();
-    collision();
+
 }
 
 function drawGame() {
@@ -119,7 +128,7 @@ function drawGame() {
 function drawStats() {
     scoreDis.innerHTML = `score:${score}`;
     levelDis.innerHTML = `Level:${level}`;
-    for (i = 0; i <= lives; i++) {
+    for (i = 0; i <= currentlives; i++) {
         let heart = "&#128150";
         livesDis.innerHTML = `${heart.repeat(i)}`;
     }
@@ -239,9 +248,15 @@ function input() {
             case "startbtn":
                 console.log("start the Game!");
                 hideMenu(startUI);
+                currentlives = lives;
                 gameStart();
                 break;
-
+            case "playAgainbtn":
+                hideMenu(gameOverUI);
+                isGameOver = false;
+                currentlives = lives;
+                gameStart();
+                break;
         }
     })
 }
@@ -289,20 +304,19 @@ function collision() {
 }
 function pauseGame() {
     isPaused = true;
-    clearInterval(gameLoop);
 }
 function resumeGame() {
     isPaused = false;
-    gameLoop = setInterval(update, fPS);
-    console.log("game Resummed");
 }
 function resetGame() {
-    //pause game to show what happened
-    pauseGame();
+    
     if (currentlives <= 0) {
         isGameOver = true;
         showMenu(gameOverUI);
-    } else {
+        lives = 3;
+        currentlives = lives;
+        isPaused = true;
+    } else if (currentlives >= 0) {
         //set score back to 0
         score = 0;
         //reset snake 
@@ -311,7 +325,7 @@ function resetGame() {
         inputDr.y = 0;
         snake = randomPos();
         food = randomPos();
-        resumeGame();
+        isPaused = false;
     }
 
 }
