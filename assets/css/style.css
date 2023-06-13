@@ -1,6 +1,6 @@
 /*Helper Varibles to keep track of color parlet*/
 :root {
-    --primary-color:#0000;
+    --primary-color:#051427;
     --secondary-color:#051427;
     --accent-color:#ced7e0;
 
@@ -39,6 +39,28 @@ body {
 #lives {
     
 }*/
+
+/*Start Menu */
+#startMenu {
+    position: absolute;
+    visibility: visible;
+}
+
+#startMenu button{
+    width: 50px;
+    height: 60px;
+}
+
+/*Game Over Menu*/
+#gameOverMenu {
+    position: absolute;
+    visibility: hidden;
+}
+
+#gameOverMenu button {
+    width: 100px;
+    height: 40;
+}
 
 /* Game Board Area */
 

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     // varibles to keep of grid/map size
     let width = 30;
     let height = 30;
-    let tileSize = 20;
+    let tileSize = 15;
     // Drawing canvas on screen and adjusting size by width * height
     const rootstyle = getComputedStyle(document.body);
     const gameBoard = document.getElementById("gameBoard");
@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     const livesDis = document.getElementById("lives");
 
     //Sound effects
-    let eatEffect = new Audio ("assets/sounds/carrotnom-92106.mp3");
-    let hitEffect = new Audio ("assets/sounds/punch-2-37333.mp3");
+    let eatEffect = new Audio("assets/sounds/carrotnom-92106.mp3");
+    let hitEffect = new Audio("assets/sounds/punch-2-37333.mp3");
 
     // Stats
     let score = 0;
@@ -40,11 +40,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         y: tileSize
     };
 
-    let door = {
-        x: tileSize,
-        y: tileSize
-    };
-
     //directinal control
     let inputDr = { x: 0, y: 0 };
     let lastInputDr = { x: 0, y: 0 };
@@ -56,14 +51,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     let isPaused = false;
     let isGameOver = false;
 
-
     window.onload = function () {
-
-        //document.getElementById("bgAudio").play();
         gameStart();
     }
     function gameStart() {
-        currentlives = lives;
+        //document.getElementById("bgAudio").play();
         snakeBody.length = 1;
         snake = randomPos();
         food = randomPos();
@@ -79,8 +71,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function drawGame() {
         contx.fillStyle = "white";
         contx.fillRect(0, 0, gameBoard.width, gameBoard.height);
-        //Drawing Walls on canvas 
-        createMap(levelOne);
+        createMap(levelOne);//Drawing Walls on canvas 
         drawStats();
         drawMap();
         drawFood();
@@ -89,11 +80,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function drawStats() {
         scoreDis.innerHTML = `score:${score}`;
         levelDis.innerHTML = `Level:${level}`;
-        for(i = 0; i <= lives;i++){
+        for (i = 0; i <= lives; i++) {
             let heart = "&#128150";
-             livesDis.innerHTML = `${heart.repeat(i)}`;
+            livesDis.innerHTML = `${heart.repeat(i)}`;
         }
-       
+
     }
     /**
      * 
@@ -105,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             const row = map[y];
             for (let x = 0; x < row.length; x++) {
                 const char = row[x];
-                if(char === '#'){
+                if (char === '#') {
                     walls.push({ x: x * wall.x, y: y * wall.y });
                 }
             }
@@ -217,18 +208,18 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     function collision() {
-        //colision if snake hits its self
+        //self collisions
         for (let i = 0; i < snakeBody.length - 1; i++) {
             if (snake.x === snakeBody[i][0] && snake.y === snakeBody[i][1]) {
                 lives--;
                 currentlives = lives;
-                eatEffect.volume = 0.5;
+                hitEffect.volume = 0.5;
                 hitEffect.play();
                 resetGame();
             }
         }
 
-        //if snake colides with food grow
+        //food collisions
         if (snake.x === food.x && snake.y === food.y) {
             snakeBody.unshift({ ...snakeBody });
             eatEffect.volume = 0.5;
@@ -236,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             food = randomPos();
             score++
         }
-        //grab all the walls for wall collisions
+        // wall collisions
         for (let i = 0; i < walls.length; i++) {
             const wall = walls[i];
             // if snake hits wall
@@ -244,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 // loose live and reset level.
                 lives--;
                 currentlives = lives;
-                eatEffect.volume = 0.5;
+                hitEffect.volume = 0.5;
                 hitEffect.play();
                 resetGame();
             }
@@ -252,19 +243,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
             if (food.x === snake.x && food.y === snake.y || food.x === wall.x && food.y === wall.y) {
                 food = randomPos();
                 eatEffect.volume = 0.5;
-                hitEffect.play();
+                eatEffect.play();
             }
+          
         }
     }
     function pauseGame() {
-        for (let i = 0; i < 5000; i++) {
-            isPaused = true;
-            clearInterval(gameLoop);
-        }
+
+        isPaused = true;
+        clearInterval(gameLoop);
+
     }
     function resumeGame() {
         isPaused = false;
-        gameStart();
+        gameLoop = setInterval(update, fPS);
         console.log("game Resummed");
     }
     function resetGame() {
@@ -280,6 +272,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
             snakeBody.length = 1;
             inputDr.x = 0;
             inputDr.y = 0;
+            snake = randomPos();
+            food = randomPos();
             resumeGame();
         }
 
@@ -297,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         console.log(score);
         contx.fillStyle = "black"
         contx.textAlign = "top";
-        contx.fillText(`${score}`,width * tileSize - 300 , height * tileSize / 3);
+        contx.fillText(`${score}`, width * tileSize - 300, height * tileSize / 3);
 
     }
 });
@@ -305,9 +299,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
 /**
  * Audio background music
  */
-function muteAudio(){
+function muteAudio() {
     let backgroundAudio = document.getElementById("bgAudio");
     backgroundAudio.muteAudio = !backgroundAudio.muteAudio;
+}
+
+/**
+ * Menu Functions 
+ */
+
+function showMenu(menu){
+    menu.style.visibility = "visible";
 }
 
 //levels for generating map walls 
@@ -343,50 +345,4 @@ let levelOne = [
     '#                            #',
     '#                            #',
     '##############################',
-]
-
-let levelTwo = [
-    '####################',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#        ###       #',
-    '#                  #',
-    '#        ###       #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '####################',
-]
-
-let levelThree = [
-    '####################',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '###   ######       #',
-    '#                  #',
-    '#     ###### #######',
-    '#     #            #',
-    '#     #            #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '####################',
 ]
