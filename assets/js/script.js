@@ -1,53 +1,53 @@
 
 //Walls Layout in an array of # strings
 let levelOne = [
-    '##############################',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '#                            #',
-    '##############################',
+    '####################',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '#                  #',
+    '####################',
 ];
 //varibles for Play area tile sizes. width * height resulting in grid size;
-let width = 30;
+let width = 20;
 let height = 30;
 let tileSize = 20;
 
-//Drawing canvas on screen and adjusting size by width * height and setting border color.
+//Drawing canvas on screen and adjusting size by width * height and accessing css custom varibles.
 const rootstyle = getComputedStyle(document.body);
 const gameBoard = document.getElementById("gameBoard");
 const contx = gameBoard.getContext("2d");
 gameBoard.height = height * tileSize;
 gameBoard.width = width * tileSize;
-gameBoard.style.border = `1px solid ${rootstyle.getPropertyValue('--primary-color')}`;
 
 //Game Menus acessed html div elements by Id 
 const startUI = document.getElementById("startMenu");
 const gameOverUI = document.getElementById("gameOverMenu");
+const statUI = document.getElementById("gameStatArea");
 
 //acessing html score,level and lives display
 const scoreDis = document.getElementById("score");
@@ -92,7 +92,7 @@ let gameLoop;
 let isPaused = false;
 let isGameOver = false;
 
-update(); // called here to allow input and game to be displayed.
+input(); // called here to allow input and game to be displayed.
 
 /**
  * Game Start funtion Handles Game start and sets of Update to run perframe
@@ -104,7 +104,6 @@ function startGame() {
     snakeBody.length = 1;
     snake = { x: 120, y: 220 };
     food = randomPos();
-    
     if (lives <= 0) {
         lives = 3;
     }
@@ -117,16 +116,16 @@ function update() {
     if (!isPaused) {
         moveSnake();
         collision();
-        currentlives = lives;
         drawGame();
     }
+    //currentlives = lives;
     input();
 }
 /**
  * Draw fuction Handles anything that needs to be drawn to canvas.
  */
 function drawGame() {
-    contx.fillStyle = "white";
+    contx.fillStyle = `${rootstyle.getPropertyValue('--primary-color')}`;
     contx.fillRect(0, 0, gameBoard.width, gameBoard.height);
     drawStats();
     drawMap();
@@ -161,16 +160,16 @@ function drawMap() {
     createMap(levelOne); //create walls out of levlOne array
     for (let i = 0; i < walls.length; i++) {
         const wall = walls[i];
-        contx.fillStyle = "#ffc0cb";
+        contx.fillStyle = `${rootstyle.getPropertyValue('--walls-color')}`;
         contx.fillRect(wall.x, wall.y, tileSize, tileSize);
     }
 }
 function drawFood() {
-    contx.fillStyle = "brown";
+    contx.fillStyle = `${rootstyle.getPropertyValue('--food-color')}`;
     contx.fillRect(food.x, food.y, tileSize, tileSize);
 }
 function drawSnake() {
-    contx.fillStyle = "red";
+    contx.fillStyle =  `${rootstyle.getPropertyValue('--snakeHead-color')}`;
     contx.fillRect(snake.x, snake.y, tileSize, tileSize);
     for (let i = snakeBody.length - 1; i > 0; i--) {
         snakeBody[i] = snakeBody[i - 1];
@@ -179,7 +178,7 @@ function drawSnake() {
         snakeBody[0] = [snake.x, snake.y];
     }
     for (let i = 0; i < snakeBody.length; i++) {
-        contx.fillStyle = (i <= 0) ? "red" : "green";
+        contx.fillStyle = (i <= 0) ? `${rootstyle.getPropertyValue('--snakeHead-color')}`:`${rootstyle.getPropertyValue('--snakeBody-color')}` ;
         contx.fillRect(snakeBody[i][0], snakeBody[i][1], tileSize, tileSize);
     }
 
@@ -256,13 +255,14 @@ function input() {
                 inputDr = { x: 1, y: 0 };
                 break;
             case "startbtn":
-                console.log("start the Game!");
                 hideMenu(startUI);
                 startGame();
+                showMenu(statUI);
                 break;
             case "playAgainbtn":
                 hideMenu(gameOverUI);
                 isGameOver = false;
+                clearInterval(gameLoop);
                 startGame();
                 break;
         }
@@ -323,6 +323,7 @@ function resetGame() {
     if (lives <= 0) {
         isGameOver = true;
         showMenu(gameOverUI);
+        hideMenu(statUI);
     } else if (lives >= 0) {
         isPaused = true;
         startGame();

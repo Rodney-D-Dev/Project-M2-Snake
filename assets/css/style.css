@@ -1,32 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
 /*Helper Varibles to keep track of color parlet*/
 :root {
     --primary-color:#051427;
-    --secondary-color:#051427;
-    --accent-color:#ced7e0;
+    --secondary-color:#ced7e0;
+    --accent-color:#1b78f1;
 
     --walls-color:#a44322;
     --snakeHead-color:#f8bc04;
+    --snakeBody-color:#426086ce;
+    --food-color:#da8a8b;
 }
 
 body {
+    font-family: 'Orbitron', sans-serif;
     background:var(--primary-color);
+    color: var(--secondary-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
+}
+/*All Buttons Style*/
+.button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: small;
+    background-color:var(--accent-color);
+    color: var(--secondary-color);
+    text-decoration: solid;
+}
+
+.button:hover {
+    background-color:var(--primary-color);
+    color: var(--secondary-color);
 }
 
 /* Game Stats Area */
-.gameStatArea {
+#gameStatArea {
+    visibility: visible;
     display: flex;
+    border: 2px solid var(--walls-color);
     background-color:var(--accent-color);
 }
-.gameStatArea h2  {
+#gameStatArea h2  {
+    color: var(--secondary-color);
     margin: auto;
     width: 125px;
     border-radius: 2px;
-    padding: 3px;
-    
+    padding: 3px; 
 }
 /*#score {
     
@@ -71,7 +93,8 @@ body {
 /*Displaying Buttons controls and style */
 .btncontrols {
     width: 160px;
-    height: 50px;
+    height: 55px;
+    border: 2px solid var(--walls-color);
 }
 
 .btncontrols button {
@@ -83,6 +106,7 @@ body {
 #up {
     margin-left: 54px;
     margin-right: 50px;
+    margin-bottom: 3px;
     width: 50px;
     height: 25px;
 }
