@@ -31,7 +31,7 @@ let levelOne = [
     '#                            #',
     '#                            #',
     '##############################',
-]
+];
 //varibles for Play area tile sizes. width * height resulting in grid size;
 let width = 30;
 let height = 30;
@@ -66,12 +66,12 @@ let lives = 3;
 let currentlives;
 
 //Snake varibles 
-let snake = {x:120, y:200}; // snake start point
+let snake = { x: 120, y: 200 }; // snake start point
 let snakeBody = [];
-let snakeSpeed = 10;
+let snakeSpeed = 12;
 
 //Food Varibles
-let food = randomPos();;
+let food = randomPos();
 
 //walls array and wall object with x and y cords  
 let walls = [];
@@ -97,17 +97,18 @@ update(); // called here to allow input and game to be displayed.
 /**
  * Game Start funtion Handles Game start and sets of Update to run perframe
  */
-function gameStart() {
-    hideMenu(startUI);
+function startGame() {
+    isPaused = false;
     inputDr.x = 0;
     inputDr.y = 0;
     snakeBody.length = 1;
-    snake = {x:120, y:220};
+    snake = { x: 120, y: 220 };
     food = randomPos();
-    gameLoop = setInterval(update, fPS);
-    if (lives <= 0 ) {
+    
+    if (lives <= 0) {
         lives = 3;
     }
+    gameLoop = setInterval(update, fPS);
 }
 /**
  * Update function Handles anything that needs to be updated evry frame.
@@ -133,9 +134,9 @@ function drawGame() {
     drawSnake();
 }
 function drawStats() {
-    scoreDis.innerHTML = `score:${score}`;
+    scoreDis.innerHTML = `🏆:${score}`;
     levelDis.innerHTML = `Level:${level}`;
-    for (i = 0; i <= lives; i++) {
+    for (let i = 0; i <= lives; i++) {
         let heart = "&#128150";
         livesDis.innerHTML = `${heart.repeat(i)}`;
     }
@@ -160,8 +161,8 @@ function drawMap() {
     createMap(levelOne); //create walls out of levlOne array
     for (let i = 0; i < walls.length; i++) {
         const wall = walls[i];
-        contx.fillStyle = "#ffc0cb"
-        contx.fillRect(wall.x, wall.y, tileSize, tileSize)
+        contx.fillStyle = "#ffc0cb";
+        contx.fillRect(wall.x, wall.y, tileSize, tileSize);
     }
 }
 function drawFood() {
@@ -198,9 +199,9 @@ function moveSnake() {
  */
 function randomPos() {
     return {
-        x: Math.floor(Math.random() * height ) * tileSize, 
-        y: Math.floor(Math.random() * width ) * tileSize
-    }
+        x: Math.floor(Math.random() * height) * tileSize,
+        y: Math.floor(Math.random() * width) * tileSize
+    };
 }
 /**
  * Input function add event when ever key is pressed or buttons are clicked 
@@ -229,12 +230,12 @@ function input() {
                 if (!isPaused) {
                     pauseGame();
                 } else {
-                    resetGame();
+                    resumeGame();
                 }
                 break;
 
         }
-    })
+    });
 
     document.body.addEventListener("click", event => {
         switch (event.target.id) {
@@ -257,16 +258,15 @@ function input() {
             case "startbtn":
                 console.log("start the Game!");
                 hideMenu(startUI);
-                gameStart();
+                startGame();
                 break;
             case "playAgainbtn":
                 hideMenu(gameOverUI);
                 isGameOver = false;
-                clearInterval(gameLoop);
-                gameStart();
+                startGame();
                 break;
         }
-    })
+    });
 }
 /**
  * Collision function to detect any collision with snake,wall and food.
@@ -288,7 +288,7 @@ function collision() {
         eatEffect.volume = 0.5;
         eatEffect.play();
         food = randomPos();
-        score++
+        score++;
     }
     // wall collisions
     for (let i = 0; i < walls.length; i++) {
@@ -309,21 +309,23 @@ function collision() {
     }
 }
 
+function pauseGame() {
+    isPaused = true;
+    clearInterval(gameLoop);
+}
+function resumeGame() {
+    isPaused = false;
+    setInterval(gameLoop);
+}
+
 function resetGame() {
-    
+    clearInterval(gameLoop);
     if (lives <= 0) {
         isGameOver = true;
         showMenu(gameOverUI);
     } else if (lives >= 0) {
-        //set score back to 0
-        score = 0;
-        //reset snake 
-        snakeBody.length = 1;
-        inputDr.x = 0;
-        inputDr.y = 0;
-        snake = {x:120, y:220};
-        food = randomPos();
-        isPaused = false;
+        isPaused = true;
+        startGame();
     }
 
 }
