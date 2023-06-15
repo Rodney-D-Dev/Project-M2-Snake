@@ -199,18 +199,22 @@ function input() {
     document.body.addEventListener("keydown", event => {
         switch (event.key) {
             case "ArrowUp":
+            case "w":
                 if (lastInputDr.y !== 0) break;
                 inputDr = { x: 0, y: -1 };
                 break;
             case "ArrowDown":
+            case "s" :
                 if (lastInputDr.y !== 0) break;
                 inputDr = { x: 0, y: 1 };
                 break;
             case "ArrowLeft":
+            case "a":
                 if (lastInputDr.x !== 0) break;
                 inputDr = { x: -1, y: 0 };
                 break;
             case "ArrowRight":
+            case "d":
                 if (lastInputDr.x !== 0) break;
                 inputDr = { x: 1, y: 0 };
                 break;
