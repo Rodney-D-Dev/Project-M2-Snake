@@ -39,9 +39,8 @@ const startUI = document.getElementById("startMenu");
 const gameOverUI = document.getElementById("gameOverMenu");
 const statUI = document.getElementById("gameStatArea");
 
-//acessing html score,level and lives display
+//acessing html score and lives display
 const scoreDis = document.getElementById("score");
-const levelDis = document.getElementById("level");
 const livesDis = document.getElementById("lives");
 
 //Sound effects adding audio from sounds folder
@@ -51,8 +50,6 @@ const hitEffect = new Audio("assets/sounds/punch-2-37333.mp3");
 // Stats
 let score = 0;
 let lives = 3;
-
-let currentlives;
 
 //Snake varibles 
 let snake = { x: 120, y: 200 }; // snake start point
@@ -88,7 +85,6 @@ input(); // called here to allow input before game start.
  */
 function startGame() {
     isPaused = false;
-    score = 0;
     inputDr.x = 0;
     inputDr.y = 0;
     snakeBody.length = 1;
@@ -324,13 +320,6 @@ function resetGame() {
         startGame();
     }
 
-}
-/**
- * Mute Auto funtion to mute and unmute auto 
- */
-function muteAudio() {
-    let backgroundAudio = document.getElementById("bgAudio");
-    backgroundAudio.muteAudio = !backgroundAudio.muteAudio;
 }
 /**
  * Show Menu function to display menu 
