@@ -123,23 +123,6 @@ body {
 
 /* footer */
 footer {
-    height: 100px;
-}
-
-.social-networks {
-    text-align: center;
-    font-size: 200%;
-    padding-left: 0px;
-    margin: 10px;
-    color:var(--accent-color);
-}
-
-.social-networks > li {
-    display: inline-flex;
-}
-
-.social-networks i {
-    font-size: 150%;
-    margin: 10px;
-    color:var(--accent-color);
+    width: 500px;
+    height: 200px;
 }
