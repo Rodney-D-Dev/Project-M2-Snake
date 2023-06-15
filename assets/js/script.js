@@ -82,13 +82,13 @@ let gameLoop;
 let isPaused = false;
 let isGameOver = false;
 
-input(); // called here to allow input and game to be displayed.
-
+input(); // called here to allow input before game start.
 /**
- * Game Start funtion Handles Game start and sets of Update to run perframe
+ * Game Start funtion Handles Game start and sets off Update to run perframe
  */
 function startGame() {
     isPaused = false;
+    score = 0;
     inputDr.x = 0;
     inputDr.y = 0;
     snakeBody.length = 1;
@@ -111,7 +111,7 @@ function update() {
     input();
 }
 /**
- * Draw fuction Handles anything that needs to be drawn to canvas.
+ * Draw Game fuction Handles anything that needs to be drawn to canvas.
  */
 function drawGame() {
     contx.fillStyle = `${rootstyle.getPropertyValue('--primary-color')}`;
@@ -121,6 +121,9 @@ function drawGame() {
     drawFood();
     drawSnake();
 }
+/**
+ * Draw Stats function to draw score and lives
+ */
 function drawStats() {
     scoreDis.innerHTML = `🏆:${score}`;
     for (let i = 0; i <= lives; i++) {
@@ -131,8 +134,10 @@ function drawStats() {
 
 }
 /**
- * Create Map Function to generate walls out of # strings by looping throgh array of strings 
- * @param {Array [string]}
+ * Create Map Function to generate walls
+ * by creating an empty map and then iterating through the length of the map to create rows.
+ * Then iterating through each character in the string array, checking if it is a # symbol, and adding that wall to the array of walls on that row. 
+ * @param {string []} map 
  */
 function createMap(map) {
     for (let y = 0; y < map.length; y++) {
@@ -145,18 +150,27 @@ function createMap(map) {
         }
     }
 }
+/**
+ * Draw Map function to draw map
+ */
 function drawMap() {
-    createMap(levelOne); //create walls out of levlOne array
+    createMap(levelOne);
     for (let i = 0; i < walls.length; i++) {
         const wall = walls[i];
         contx.fillStyle = `${rootstyle.getPropertyValue('--walls-color')}`;
         contx.fillRect(wall.x, wall.y, tileSize, tileSize);
     }
 }
+/**
+ * Draw Food function to draw food
+ */
 function drawFood() {
     contx.fillStyle = `${rootstyle.getPropertyValue('--food-color')}`;
     contx.fillRect(food.x, food.y, tileSize, tileSize);
 }
+/**
+ * Draw Snake function to draw snake
+ */
 function drawSnake() {
     contx.fillStyle = `${rootstyle.getPropertyValue('--snakeHead-color')}`;
     contx.fillRect(snake.x, snake.y, tileSize, tileSize);
@@ -183,7 +197,7 @@ function moveSnake() {
 }
 /**
  * RandomPos hellper function to generate random position on map
- * used for snake and food positioning
+ * used for food positioning
  */
 function randomPos() {
     return {
@@ -192,7 +206,7 @@ function randomPos() {
     };
 }
 /**
- * Input function add event when ever key is pressed or buttons are clicked 
+ * Input function to add eventListner when key is pressed or button is clicked 
  */
 function input() {
     lastInputDr = inputDr;
@@ -217,13 +231,6 @@ function input() {
             case "d":
                 if (lastInputDr.x !== 0) break;
                 inputDr = { x: 1, y: 0 };
-                break;
-            case " ":
-                if (!isPaused) {
-                    pauseGame();
-                } else {
-                    resumeGame();
-                }
                 break;
 
         }
@@ -303,7 +310,9 @@ function collision() {
 
     }
 }
-
+/**
+ * Reset Game function to restart game depending on how many lives
+ */
 function resetGame() {
     clearInterval(gameLoop);
     if (lives <= 0) {
@@ -323,11 +332,17 @@ function muteAudio() {
     let backgroundAudio = document.getElementById("bgAudio");
     backgroundAudio.muteAudio = !backgroundAudio.muteAudio;
 }
-
+/**
+ * Show Menu function to display menu 
+ * @param {getElementById} menu 
+ */
 function showMenu(menu) {
     menu.style.visibility = "visible";
 }
-
+/**
+ * Hide Menu function to hide menu 
+ * @param {getElementById} menu 
+ */
 function hideMenu(menu) {
     menu.style.visibility = "hidden";
 }
