@@ -18,6 +18,8 @@ SnakeRoam is take on an old game called Snake.
  -Area to Show button controlls.
  -These buttons can be used to control the snake
 
+## WireFrame
+![SnakeroamWireframe](/assets/images/snake%20Roam%20wire%20frame.png)
 
 ## Testing
 
