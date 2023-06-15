@@ -36,6 +36,8 @@ Live website [here](https://rodney-d-dev.github.io/Project-M2-Snake/)
 - Tested in Chrome,Firefox,Edge
 - game resposive in browsers with no issues
 
+![Light house results pic](/assets/images/Light%20house%20snake%20roam.png)
+
 ## Validator Testing
 - HTML Document checking completed. No errors or warnings to show.
 ![html validation pic](/assets/images/html%20validation%20snake%20roam.png)
@@ -44,7 +46,11 @@ Live website [here](https://rodney-d-dev.github.io/Project-M2-Snake/)
 ![CSS validation pic](/assets/images/CSS%20Validation%20Snake%20roam.png)
 
 # Deployment
-
+* The website was deployed to GitHub pages.
+1. In the GitHub repository, navigate to the Settings tab
+2. In the General sub menu selected Pages.
+3. From the source section drop-down menu, select Deploy from a brach.
+4. In branch section select main and save, Link for page shows at the top of GitHub Pages. 
 # Credits
 - sounds from https://pixabay.com/
 - game description from https://gamia-archive.fandom.com/wiki/Snake_(video_game)
