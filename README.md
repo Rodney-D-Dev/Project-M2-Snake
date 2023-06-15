@@ -2,7 +2,7 @@
 SnakeRoam is take on an old game called Snake.
  The player controls a long, thin creature, resembling a snake, which roams around on a bordered plane, picking up food , trying to avoid hitting its own tail or the "walls" that surround the playing area. Each time the snake eats a piece of food, its tail grows longer, making the game increasingly difficult. The user controls the direction of the snake's head, and the snake's body follows. The player cannot stop the snake from moving while the game is in progress, and cannot make the snake go in reverse.
 
-![Preview]()
+![Preview](/assets/images/am%20i%20resonsive%20snake%20roam.png)
 
 Live website [here](https://rodney-d-dev.github.io/Project-M2-Snake/)
 
@@ -35,6 +35,13 @@ Live website [here](https://rodney-d-dev.github.io/Project-M2-Snake/)
 ## Testing
 - Tested in Chrome,Firefox,Edge
 - game resposive in browsers with no issues
+
+## Validator Testing
+- HTML Document checking completed. No errors or warnings to show.
+![html validation pic](/assets/images/html%20validation%20snake%20roam.png)
+
+- CSS Congratulations! No Error Found.
+![CSS validation pic](/assets/images/CSS%20Validation%20Snake%20roam.png)
 
 # Deployment
 
