@@ -10,39 +10,56 @@
 </head>
 
 <body>
+
     <!-- game logo -->
-    <div class="Logo">
-        <h1>SnakeRoam</h1>
+    <div class="logo">
+        <h1>Snake Roam</h1>
     </div>
-    <!--game stats area to show stats-->
-    <div id="gameStatArea">
-        <h2 id="score">Score:</h2>
-        <h2 id="level">Level</h2>
-        <h2 id="lives">Lives</h2>
-    </div>
-    <!--Game Start Menu-->
-    <div id="startMenu"> Start Menu
-        <h2>Start Game</h2>
-        <button class="button" id="startbtn">Start</button>
-    </div>
-    <div id="gameOverMenu">Game Over Menu
-        <h2>Game Over!</h2>
-        <button class="button" id="playAgainbtn">Play Again</button>
-    </div>
-    <!--game canvas -->
-    <canvas id="gameBoard">
-    </canvas>
-    <!--Background Music-->
-    <audio autoplay loop id="bgAudio" muted >
-        <source src="assets/sounds/ethereal-ambient-music-55115.mp3" type="audio/mp3">
-    </audio>
-    <!--Buttons to contol snake without keyboard input -->
-    <div class="btncontrols">
-        <button class="button" id="up">Up</button>
-        <button class="button" id="left">Left</button>
-        <button class="button" id="down">Down</button>
-        <button class="button" id="right">Right</button>
-        <!--<button class="button" id="mute" onclick="muteAudio()">mute</button> -->
+    <div class="gameArea">
+        <!--game stats area to show stats-->
+        <div id="gameStatArea">
+            <h2 id="score">Score:</h2>
+            <h2 id="lives">Lives</h2>
+        </div>
+        <!--Game Start Menu-->
+        <div id="startMenu">
+            <p>Controls 
+            <br>
+                ⬆️⬇️⬅️➡️
+                <br>
+                W,S,A,D 
+            <br>
+            or use buttons bellow
+            </p>
+            <h2>Start Game</h2>
+            <button class="button" id="startbtn">Start</button>
+        </div>
+        <div id="gameOverMenu">
+            <h2>Game Over!</h2>
+            <h3>🏆100</h3>
+            <button class="button" id="playAgainbtn">Play Again</button>
+        </div>
+        <!--game canvas -->
+        <canvas id="gameBoard">
+        </canvas>
+        <!--Background Music-->
+        <audio autoplay loop id="bgAudio" muted>
+            <source src="assets/sounds/ethereal-ambient-music-55115.mp3" type="audio/mp3">
+        </audio>
+        <!--Buttons to contol snake without keyboard input -->
+        <div class="btncontrols">
+            <button class="button" id="up">Up</button>
+            <button class="button" id="left">Left</button>
+            <button class="button" id="down">Down</button>
+            <button class="button" id="right">Right</button>
+            <!--<button class="button" id="mute" onclick="muteAudio()">mute</button> -->
+        </div>
+        <div>
+            <p>Your goal is to move the snake and eat as many "food" blocks as possible. 
+                There is only one food block at any given time. When the food is eaten, the snake grows in length. 
+                If you hit a wall or the snake itself you will loose one live.
+            </p>
+        </div>
     </div>
     <!--java script -->
     <script src="assets/js/script.js"></script>

@@ -20,21 +20,11 @@ let levelOne = [
     '#                  #',
     '#                  #',
     '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
-    '#                  #',
     '####################',
 ];
 //varibles for Play area tile sizes. width * height resulting in grid size;
 let width = 20;
-let height = 30;
+let height = 20;
 let tileSize = 20;
 
 //Drawing canvas on screen and adjusting size by width * height and accessing css custom varibles.
@@ -60,7 +50,6 @@ const hitEffect = new Audio("assets/sounds/punch-2-37333.mp3");
 
 // Stats
 let score = 0;
-let level = 1;
 let lives = 3;
 
 let currentlives;
@@ -72,6 +61,7 @@ let snakeSpeed = 12;
 
 //Food Varibles
 let food = randomPos();
+
 
 //walls array and wall object with x and y cords  
 let walls = [];
@@ -118,7 +108,6 @@ function update() {
         collision();
         drawGame();
     }
-    //currentlives = lives;
     input();
 }
 /**
@@ -134,11 +123,11 @@ function drawGame() {
 }
 function drawStats() {
     scoreDis.innerHTML = `🏆:${score}`;
-    levelDis.innerHTML = `Level:${level}`;
     for (let i = 0; i <= lives; i++) {
         let heart = "&#128150";
         livesDis.innerHTML = `${heart.repeat(i)}`;
     }
+    gameOverUI.children[1].innerHTML = `🏆${score}`;
 
 }
 /**
@@ -169,7 +158,7 @@ function drawFood() {
     contx.fillRect(food.x, food.y, tileSize, tileSize);
 }
 function drawSnake() {
-    contx.fillStyle =  `${rootstyle.getPropertyValue('--snakeHead-color')}`;
+    contx.fillStyle = `${rootstyle.getPropertyValue('--snakeHead-color')}`;
     contx.fillRect(snake.x, snake.y, tileSize, tileSize);
     for (let i = snakeBody.length - 1; i > 0; i--) {
         snakeBody[i] = snakeBody[i - 1];
@@ -178,7 +167,7 @@ function drawSnake() {
         snakeBody[0] = [snake.x, snake.y];
     }
     for (let i = 0; i < snakeBody.length; i++) {
-        contx.fillStyle = (i <= 0) ? `${rootstyle.getPropertyValue('--snakeHead-color')}`:`${rootstyle.getPropertyValue('--snakeBody-color')}` ;
+        contx.fillStyle = (i <= 0) ? `${rootstyle.getPropertyValue('--snakeHead-color')}` : `${rootstyle.getPropertyValue('--snakeBody-color')}`;
         contx.fillRect(snakeBody[i][0], snakeBody[i][1], tileSize, tileSize);
     }
 
@@ -263,6 +252,7 @@ function input() {
                 hideMenu(gameOverUI);
                 isGameOver = false;
                 clearInterval(gameLoop);
+                showMenu(statUI);
                 startGame();
                 break;
         }
@@ -290,6 +280,7 @@ function collision() {
         food = randomPos();
         score++;
     }
+
     // wall collisions
     for (let i = 0; i < walls.length; i++) {
         const wall = walls[i];
@@ -302,20 +293,11 @@ function collision() {
             resetGame();
         }
         //detect if food is generated on snake or wall
-        if (food.x === snake.x && food.y === snake.y || food.x === wall.x && food.y === wall.y) {
+        if (food.x === snake.x && food.y === snake.y || food.x === wall.x && food.y === wall.y){
             food = randomPos();
         }
 
     }
-}
-
-function pauseGame() {
-    isPaused = true;
-    clearInterval(gameLoop);
-}
-function resumeGame() {
-    isPaused = false;
-    setInterval(gameLoop);
 }
 
 function resetGame() {
@@ -330,7 +312,9 @@ function resetGame() {
     }
 
 }
-
+/**
+ * Mute Auto funtion to mute and unmute auto 
+ */
 function muteAudio() {
     let backgroundAudio = document.getElementById("bgAudio");
     backgroundAudio.muteAudio = !backgroundAudio.muteAudio;
